@@ -19,6 +19,9 @@ import org.bukkit.event.CustomEventListener;
 import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.inventory.InventoryListener;
+import org.bukkit.event.inventory.InventoryOpenedClosedEvent;
+import org.bukkit.event.inventory.InventoryTransactionEvent;
 import org.bukkit.event.map.MapIndexCreatedEvent;
 import org.bukkit.event.map.MapInitializeEvent;
 import org.bukkit.event.map.MapListener;
@@ -247,7 +250,18 @@ public final class JavaPluginLoader implements PluginLoader {
 		// TODO: remove multiple Listener type and hence casts
 
 		switch (type) {
-		// Map Events
+
+		// Inventory Events
+
+		case INVENTORY_TRANSACTION:
+			return new EventExecutor() {
+				public void execute(Listener listener, Event event) {
+					InventoryListener s;
+					((InventoryListener) listener)
+							.onInventoryTransaction((InventoryTransactionEvent) event);
+				}
+			}; 
+			// Map Events
 
 		case MAP_INITIALIZE:
 			return new EventExecutor() {
@@ -389,8 +403,8 @@ public final class JavaPluginLoader implements PluginLoader {
 		case INVENTORY_OPEN:
 			return new EventExecutor() {
 				public void execute(Listener listener, Event event) {
-					((PlayerListener) listener)
-							.onInventoryOpen((PlayerInventoryEvent) event);
+					((InventoryListener) listener)
+							.onInventoryOpened((InventoryOpenedClosedEvent) event);
 				}
 			};
 
