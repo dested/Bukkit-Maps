@@ -9,8 +9,8 @@ public class InventoryTransactionEvent extends Event {
 
 	private final TransactionType leftType;
 	private final TransactionType rightType;
-	private final ItemStack left;
-	private final ItemStack right;
+	private ItemStack left;
+	private ItemStack right;
 	private final Inventory container;
 
 	public InventoryTransactionEvent(final Type type,
@@ -53,6 +53,13 @@ public class InventoryTransactionEvent extends Event {
 
 	public void setCancled(boolean value) {
 		cancled = value;
+	}
+
+	public void setLeft(ItemStack left) {
+		this.left = left;
+	}
+	public void setRight(ItemStack right) {
+		this.right= right;
 	}
 
 }
